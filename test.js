@@ -169,3 +169,18 @@ for (var section in testCases) {
   }
   if (!passed) break;
 }
+
+sys.puts("All expansion tests passed\n")
+
+tpl = parser.parse('/{first}/{second}{?q1,q2}')
+
+vars = tpl.match('/first/second?q1=cheesy&q2=cheese')
+
+assert.deepEqual(vars, {
+	first: 'first',
+	second: 'second',
+	q1: ['cheesy'],
+	q2: ['cheese'],
+})
+
+sys.puts("Match test passed")
