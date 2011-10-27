@@ -11,6 +11,9 @@ exports.Template = class Template
         when 'object' then @expressions[i++] = p
         when 'string' then @expressions[i-1].suffix = p
 
+  expand: (vars) ->
+    @prefix + @expressions.map((expr) -> expr.expand vars).join ''
+
   match: (string) ->
     if @prefix
       return false unless m = string.match '^' + @prefix
@@ -21,9 +24,6 @@ exports.Template = class Template
       string = string.substring(len)
     return false if string
     return vars
-
-  expand: (vars) ->
-    @prefix + @expressions.map((expr) -> expr.expand vars).join ''
 
   toString: -> @prefix + @expressions.join ''
 
