@@ -1,0 +1,26 @@
+{
+  "author": "Stephen Sugden <code@stephensugden.com> (stephensugden.com)",
+  "name": "uri-template",
+  "description": "\"Parser for URI templates\"",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "''"
+  },
+  "main": "./lib/parser.js",
+  "scripts": {
+    "test": "node ./test.js"
+  },
+	"files": [
+		"./test.js",
+		"./lib"
+	],
+  "engines": {
+    "node": "~0.4.12"
+  },
+	"dependencies": {
+		"pegjs": "~0.6.2",
+		"coffee-script": "~1.1.2"
+	},
+  "devDependencies": {}
+}
