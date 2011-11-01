@@ -2,6 +2,8 @@ opTable = require './optable'
 encoders = require './encoders'
 {unescape} = require 'querystring' # TODO move this inio the encoders
 
+queryStringOps = ['?', '&']
+
 exports.Template = class Template
   constructor: (pieces) ->
     @expressions = []
@@ -16,7 +18,6 @@ exports.Template = class Template
     @prefix + @expressions.map((expr) -> expr.expand vars).join ''
 
   match: (string) ->
-    queryStringOps = ['?', '&']
     if @prefix
       return false unless m = string.match '^' + @prefix
       string = string.substring m[0].length
@@ -121,8 +122,9 @@ exports.Expression = class Expression
           else v = named; named = null
         else
           v = ordered.shift()
-      return false unless v? # Not enough values
-      vars[p.name] = v
+      return false unless v? or @op.first in queryStringOps
+      vars[p.name] = v || []
+      console.dir [p.name, vars]
     return len
 
   toString: ->
