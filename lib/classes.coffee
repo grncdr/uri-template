@@ -2,8 +2,6 @@ opTable = require './optable'
 encoders = require './encoders'
 {unescape} = require 'querystring' # TODO move this inio the encoders
 
-queryStringOps = ['?', '&']
-
 exports.Template = class Template
   constructor: (pieces) ->
     @expressions = []
