@@ -1,11 +1,11 @@
 {
   "author": "Stephen Sugden <stephen@betsmartmedia.com> (betsmartmedia.com)",
   "name": "uri-template",
-  "description": "Parse URI templates into matcher/expander objects",
-  "version": "0.0.3",
+  "description": "Parse and expand URI templates as defined by http://tools.ietf.org/html/draft-gregorio-uritemplate-07",
+  "version": "0.1.0",
   "repository": {
     "type": "git",
-    "url": "''"
+    "url": "git://github.com/grncdr/uri-template.git"
   },
   "main": "./lib/parser.js",
   "scripts": {
