@@ -7,13 +7,13 @@
     "type": "git",
     "url": "git://github.com/grncdr/uri-template.git"
   },
-  "main": "./lib/parser.js",
+  "main": "lib/parser.js",
   "scripts": {
     "test": "node ./test.js"
   },
   "files": [
-    "./test.js",
-    "./lib"
+    "test.js",
+    "lib"
   ],
   "engines": {
     "node": ">=0.4.12"
