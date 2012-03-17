@@ -3,6 +3,7 @@ module.exports =
 	"U+R": (string) -> encode /[^\w.~:\/\?#\[\]@!\$&'()*+,;=-]/g, string
 
 encode = (regexp, string) ->
+  string = String string
   next = (start) ->
     m = regexp.exec string
     if m
