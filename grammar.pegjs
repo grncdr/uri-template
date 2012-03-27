@@ -1,4 +1,5 @@
 {
+	require('coffee-script')
 	cls = require('./classes')
 	Template = cls.Template
 	Expression = cls.Expression

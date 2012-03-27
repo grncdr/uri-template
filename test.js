@@ -1,6 +1,5 @@
 assert = require('assert')
 
-require('coffee-script')
 parser = require('./lib/parser')
 
 vars = {
