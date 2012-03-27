@@ -1,11 +1,11 @@
-sys = require('sys')
 assert = require('assert')
 
 require('coffee-script')
 parser = require('./lib/parser')
 
 vars = {
-  dom   : "example.com",
+  count : ["one", "two", "three"],
+  dom   : ["example", "com"],
   dub   : "me/too",
   hello : "Hello World!",
   half  : "50%",
@@ -13,7 +13,7 @@ vars = {
   who   : "fred",
   base  : "http://example.com/home/",
   path  : "/foo/bar",
-  list  : [ "red", "green", "blue" ],
+  list  : ["red", "green", "blue"],
   keys  : {"semi":";", "dot":".", "comma":","},
   v     : "6",
   x     : "1024",
@@ -47,15 +47,18 @@ testCases["3.2.3.  Reserved expansion"] = {
   "{+var}": "value",
   "{+hello}": "Hello%20World!",
   "{+half}": "50%25",
+
   "{base}index": "http%3A%2F%2Fexample.com%2Fhome%2Findex",
   "{+base}index": "http://example.com/home/index",
   "O{+empty}X": "OX",
   "O{+undef}X": "OX",
+
   "{+path}/here": "/foo/bar/here",
   "here?ref={+path}": "here?ref=/foo/bar",
   "up{+path}{var}/here": "up/foo/barvalue/here",
   "{+x,hello,y}": "1024,Hello%20World!,768",
   "{+path,x}/here": "/foo/bar,1024/here",
+
   "{+path:6}/here": "/foo/b/here",
   "{+list}": "red,green,blue",
   "{+list*}": "red,green,blue",
@@ -76,14 +79,13 @@ testCases["3.2.4.  Fragment expansion"] = {
   "{#list*}": "#red,green,blue",
   "{#keys}": "#semi,;,dot,.,comma,,",
   "{#keys*}": "#semi=;,dot=.,comma=,",
-
 }
 
 testCases["3.2.5.  Label expansion with dot-prefix"] = {
   "{.who}": ".fred",
   "{.who,who}": ".fred.fred",
   "{.half,who}": ".50%25.fred",
-  "www{.dom}": "www.example.com",
+  "www{.dom*}": "www.example.com",
   "X{.var}": "X.value",
   "X{.empty}": "X.",
   "X{.undef}": "X",
@@ -124,9 +126,8 @@ testCases["3.2.7.  Path-style parameter expansion"] = {
   "{;x,y,undef}": ";x=1024;y=768",
   "{;hello:5}": ";hello=Hello",
   "{;list}": ";list=red,green,blue",
-  "{;list*}": ";red;green;blue",
+  "{;list*}": ";list=red;list=green;list=blue",
   "{;keys}": ";keys=semi,%3B,dot,.,comma,%2C",
-  "{;keys*}": ";semi=%3B;dot=.;comma=%2C",
 }
 
 testCases["3.2.8.  Form-style query expansion"] = {
@@ -137,7 +138,7 @@ testCases["3.2.8.  Form-style query expansion"] = {
   "{?x,y,undef}": "?x=1024&y=768",
   "{?var:3}": "?var=val",
   "{?list}": "?list=red,green,blue",
-  "{?list*}": "?red&green&blue",
+  "{?list*}": "?list=red&list=green&list=blue",
   "{?keys}": "?keys=semi,%3B,dot,.,comma,%2C",
   "{?keys*}": "?semi=%3B&dot=.&comma=%2C",
 }
@@ -148,15 +149,16 @@ testCases["3.2.9.  Form-style query continuation"] = {
   "?fixed=yes{&x}": "?fixed=yes&x=1024",
   "{&x,y,empty}": "&x=1024&y=768&empty=",
   "{&x,y,undef}": "&x=1024&y=768",
+
   "{&var:3}": "&var=val",
   "{&list}": "&list=red,green,blue",
-  "{&list*}": "&red&green&blue",
+  "{&list*}": "&list=red&list=green&list=blue",
   "{&keys}": "&keys=semi,%3B,dot,.,comma,%2C",
   "{&keys*}": "&semi=%3B&dot=.&comma=%2C",
 }
 
 for (var section in testCases) {
-  sys.puts(section);
+  console.log(section);
   var passed = true;
   for (var tpl in testCases[section]) {
     var expected = testCases[section][tpl]
@@ -164,7 +166,7 @@ for (var section in testCases) {
     got = parser.parse(tpl).expand(vars)
     if (got != expected) {
       passed = false
-      sys.puts("Expected "+expected+" but got "+got+" [ "+tpl+" ]")
+      console.log("Expected "+expected+" but got "+got+" [ "+tpl+" ]")
     }
   }
   if (!passed) break;

@@ -40,12 +40,17 @@ exports.Expression = class Expression
       [param, val] = pair
 
       if param.explode
-        if Array.isArray(val) then return val.map(encode).join(@op.sep)
         pairs = []
-        for k, v of val
-          if Array.isArray(v)
-            pairs.push(([k, encode(vv)] for vv in v)...)
-          else pairs.push [k, encode(v)]
+        if Array.isArray(val)
+          if @op.named
+            pairs = val.map (v) -> [param.name, encode(v)]
+          else
+            return val.map(encode).join(@op.sep)
+        if not pairs.length
+          for k, v of val
+            if Array.isArray(v)
+              pairs.push(([k, encode(vv)] for vv in v)...)
+            else pairs.push [k, encode(v)]
         pairs.map((p) -> p.join '=').join @op.sep
       else
         s = if typeof val == 'string'
