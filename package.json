@@ -2,7 +2,7 @@
   "author": "Stephen Sugden <stephen@betsmartmedia.com> (betsmartmedia.com)",
   "name": "uri-template",
   "description": "Parse and expand URI templates as defined by http://tools.ietf.org/html/draft-gregorio-uritemplate-07",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "repository": {
     "type": "git",
     "url": "git://github.com/grncdr/uri-template.git"
@@ -22,5 +22,6 @@
     "pegjs": "~0.6.2",
     "coffee-script": "~1.1.2"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "optionalDependencies": {}
 }
