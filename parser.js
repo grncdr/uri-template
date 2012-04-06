@@ -11,10 +11,12 @@ module.exports = (function(){
     parse: function(input, startRule) {
       var parseFunctions = {
         "expression": parse_expression,
+        "extension": parse_extension,
         "nonexpression": parse_nonexpression,
         "op": parse_op,
         "param": parse_param,
         "paramList": parse_paramList,
+        "pathExpression": parse_pathExpression,
         "substr": parse_substr,
         "uriTemplate": parse_uriTemplate
       };
@@ -124,7 +126,7 @@ module.exports = (function(){
           }
         }
         var result2 = result1 !== null
-          ? (function(pieces) { return new Template(pieces); })(result1)
+          ? (function(pieces) { return new Template(pieces) })(result1)
           : null;
         if (result2 !== null) {
           var result0 = result2;
@@ -195,7 +197,7 @@ module.exports = (function(){
           pos = savedPos1;
         }
         var result2 = result1 !== null
-          ? (function(op, params) { return new Expression(op, params); })(result1[1], result1[2])
+          ? (function(op, params) { return expression(op, params) })(result1[1], result1[2])
           : null;
         if (result2 !== null) {
           var result0 = result2;
@@ -248,6 +250,34 @@ module.exports = (function(){
           } else {
             var result0 = null;;
           };
+        }
+        
+        
+        
+        cache[cacheKey] = {
+          nextPos: pos,
+          result:  result0
+        };
+        return result0;
+      }
+      
+      function parse_pathExpression() {
+        var cacheKey = 'pathExpression@' + pos;
+        var cachedResult = cache[cacheKey];
+        if (cachedResult) {
+          pos = cachedResult.nextPos;
+          return cachedResult.result;
+        }
+        
+        
+        if (input.substr(pos, 2) === "{/") {
+          var result0 = "{/";
+          pos += 2;
+        } else {
+          var result0 = null;
+          if (reportMatchFailures) {
+            matchFailed("\"{/\"");
+          }
         }
         
         
@@ -392,42 +422,49 @@ module.exports = (function(){
         if (result3 !== null) {
           var result4 = [];
           if (input.substr(pos).match(/^[a-zA-Z0-9_]/) !== null) {
-            var result9 = input.charAt(pos);
+            var result11 = input.charAt(pos);
             pos++;
           } else {
-            var result9 = null;
+            var result11 = null;
             if (reportMatchFailures) {
               matchFailed("[a-zA-Z0-9_]");
             }
           }
-          while (result9 !== null) {
-            result4.push(result9);
+          while (result11 !== null) {
+            result4.push(result11);
             if (input.substr(pos).match(/^[a-zA-Z0-9_]/) !== null) {
-              var result9 = input.charAt(pos);
+              var result11 = input.charAt(pos);
               pos++;
             } else {
-              var result9 = null;
+              var result11 = null;
               if (reportMatchFailures) {
                 matchFailed("[a-zA-Z0-9_]");
               }
             }
           }
           if (result4 !== null) {
-            var result8 = parse_substr();
-            var result5 = result8 !== null ? result8 : '';
+            var result10 = parse_substr();
+            var result5 = result10 !== null ? result10 : '';
             if (result5 !== null) {
               if (input.substr(pos, 1) === "*") {
-                var result7 = "*";
+                var result9 = "*";
                 pos += 1;
               } else {
-                var result7 = null;
+                var result9 = null;
                 if (reportMatchFailures) {
                   matchFailed("\"*\"");
                 }
               }
-              var result6 = result7 !== null ? result7 : '';
+              var result6 = result9 !== null ? result9 : '';
               if (result6 !== null) {
-                var result1 = [result3, result4, result5, result6];
+                var result8 = parse_extension();
+                var result7 = result8 !== null ? result8 : '';
+                if (result7 !== null) {
+                  var result1 = [result3, result4, result5, result6, result7];
+                } else {
+                  var result1 = null;
+                  pos = savedPos1;
+                }
               } else {
                 var result1 = null;
                 pos = savedPos1;
@@ -445,11 +482,12 @@ module.exports = (function(){
           pos = savedPos1;
         }
         var result2 = result1 !== null
-          ? (function(letter, chars, cut, listMarker) { return {
+          ? (function(letter, chars, cut, listMarker, e) { return {
                 name: letter + chars.join(""),
                 explode: listMarker,
-                cut: cut
-              } })(result1[0], result1[1], result1[2], result1[3])
+                cut: cut,
+          			extended: e
+              } })(result1[0], result1[1], result1[2], result1[3], result1[4])
           : null;
         if (result2 !== null) {
           var result0 = result2;
@@ -598,6 +636,96 @@ module.exports = (function(){
         return result0;
       }
       
+      function parse_extension() {
+        var cacheKey = 'extension@' + pos;
+        var cachedResult = cache[cacheKey];
+        if (cachedResult) {
+          pos = cachedResult.nextPos;
+          return cachedResult.result;
+        }
+        
+        
+        var savedPos0 = pos;
+        var savedPos1 = pos;
+        if (input.substr(pos, 1) === "(") {
+          var result3 = "(";
+          pos += 1;
+        } else {
+          var result3 = null;
+          if (reportMatchFailures) {
+            matchFailed("\"(\"");
+          }
+        }
+        if (result3 !== null) {
+          if (input.substr(pos).match(/^[^)]/) !== null) {
+            var result6 = input.charAt(pos);
+            pos++;
+          } else {
+            var result6 = null;
+            if (reportMatchFailures) {
+              matchFailed("[^)]");
+            }
+          }
+          if (result6 !== null) {
+            var result4 = [];
+            while (result6 !== null) {
+              result4.push(result6);
+              if (input.substr(pos).match(/^[^)]/) !== null) {
+                var result6 = input.charAt(pos);
+                pos++;
+              } else {
+                var result6 = null;
+                if (reportMatchFailures) {
+                  matchFailed("[^)]");
+                }
+              }
+            }
+          } else {
+            var result4 = null;
+          }
+          if (result4 !== null) {
+            if (input.substr(pos, 1) === ")") {
+              var result5 = ")";
+              pos += 1;
+            } else {
+              var result5 = null;
+              if (reportMatchFailures) {
+                matchFailed("\")\"");
+              }
+            }
+            if (result5 !== null) {
+              var result1 = [result3, result4, result5];
+            } else {
+              var result1 = null;
+              pos = savedPos1;
+            }
+          } else {
+            var result1 = null;
+            pos = savedPos1;
+          }
+        } else {
+          var result1 = null;
+          pos = savedPos1;
+        }
+        var result2 = result1 !== null
+          ? (function(chars) { return chars.join("") })(result1[1])
+          : null;
+        if (result2 !== null) {
+          var result0 = result2;
+        } else {
+          var result0 = null;
+          pos = savedPos0;
+        }
+        
+        
+        
+        cache[cacheKey] = {
+          nextPos: pos,
+          result:  result0
+        };
+        return result0;
+      }
+      
       function buildErrorMessage() {
         function buildExpected(failuresExpected) {
           failuresExpected.sort();
@@ -667,11 +795,11 @@ module.exports = (function(){
       
 		require('coffee-script')
       
-		cls = require('./classes')
+		cls = require('./lib/classes')
       
 		Template = cls.Template
       
-		Expression = cls.Expression
+		expression = cls.expression
       
 	
       

@@ -1,6 +1,6 @@
 assert = require('assert')
 
-parser = require('./lib/parser')
+parser = require('./parser')
 
 vars = {
   count : ["one", "two", "three"],

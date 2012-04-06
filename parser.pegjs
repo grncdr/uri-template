@@ -1,27 +1,31 @@
 {
 	require('coffee-script')
-	cls = require('./classes')
+	cls = require('./lib/classes')
 	Template = cls.Template
-	Expression = cls.Expression
+	expression = cls.expression
 }
 uriTemplate 
-  = pieces:(nonexpression / expression)* { return new Template(pieces); }
+  = pieces:(nonexpression / expression)* { return new Template(pieces) }
 
 expression
-  = "{" op:op params:paramList "}" { return new Expression(op, params); }
+  = "{" op:op params:paramList "}" { return expression(op, params) }
 
 op
   = [/;:.?&+#] / ""
+
+pathExpression
+  = "{/"
 
 paramList
   = hd:param rst:("," p:param { return p; })* { rst.unshift(hd); return rst; }
 
 param
-  = letter:[a-zA-Z] chars:[a-zA-Z0-9_]* cut:substr? listMarker:"*"? 
+  = letter:[a-zA-Z] chars:[a-zA-Z0-9_]* cut:substr? listMarker:"*"? e:extension?
     { return {
       name: letter + chars.join(""),
       explode: listMarker,
-      cut: cut
+      cut: cut,
+			extended: e
     } }
 
 substr
@@ -29,3 +33,6 @@ substr
 
 nonexpression
 	= chars:[^{]+ { return chars.join(""); }
+
+extension
+  = "(" chars:[^)]+ ")" { return chars.join("") }
