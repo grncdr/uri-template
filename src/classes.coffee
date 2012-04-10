@@ -104,7 +104,7 @@ class SimpleExpression
     pairs.map((pair) -> pair.join '=').join(@sep)
 
   toString: ->
-    "{#{@op + @params.map((p) -> p.name + p.explode).join ','}}" + @suffix
+    "{#{@first + @params.map((p) -> p.name + p.explode).join(',')}}" + @suffix
 
 class NamedExpression extends SimpleExpression
   ###
@@ -122,10 +122,12 @@ class NamedExpression extends SimpleExpression
 
 class ReservedExpression extends SimpleExpression
   encode: (string) -> encoders['U+R'](string)
+  toString: -> '{+' + (super).substring(1)
 
-class FragmentExpression extends ReservedExpression
+class FragmentExpression extends SimpleExpression
   first: '#'
   empty: '#'
+  encode: (string) -> encoders['U+R'](string)
 
 class LabelExpression extends SimpleExpression
   first: '.'

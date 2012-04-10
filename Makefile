@@ -9,4 +9,5 @@ test: all
 	node ./test
 
 lib/%.js: src/%.coffee
+	mkdir -p lib
 	coffee -p -c $< > $@

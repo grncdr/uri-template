@@ -170,5 +170,7 @@ for (var section in testCases) {
   }
   if (!passed) break;
 }
-
+// Also test stringification
+tpl = '/{simple}/{+reserved}e{/path}{.label}{;path,param}{#fragment}{?query}{&continuation}'
+assert.equal(tpl, String(parser.parse(tpl)))
 if (!passed) process.exit(1);
