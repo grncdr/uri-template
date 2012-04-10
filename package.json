@@ -10,7 +10,7 @@
   "main": "parser.js",
   "scripts": {
     "test": "node test.js",
-    "prepublish": "make all"
+    "prepublish": "make all && node test.js"
   },
   "files": [
     "parser.js",
