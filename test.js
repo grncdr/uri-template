@@ -170,7 +170,9 @@ for (var section in testCases) {
   }
   if (!passed) break;
 }
-// Also test stringification
+
+// Test .toString and .toJSON
 tpl = '/{simple}/{+reserved}e{/path}{.label}{;path,param}{#fragment}{?query}{&continuation}'
 assert.equal(tpl, String(parser.parse(tpl)))
+assert.equal('"' + tpl + '"', JSON.stringify(parser.parse(tpl)))
 if (!passed) process.exit(1);

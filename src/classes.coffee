@@ -18,6 +18,8 @@ Template = class Template
 
   toString: -> @prefix + @expressions.join ''
 
+  toJSON: -> @toString()
+
 
 class SimpleExpression
   first:  ""
@@ -105,6 +107,8 @@ class SimpleExpression
 
   toString: ->
     "{#{@first + @params.map((p) -> p.name + p.explode).join(',')}}" + @suffix
+
+  toJSON: -> @toString()
 
 class NamedExpression extends SimpleExpression
   ###
