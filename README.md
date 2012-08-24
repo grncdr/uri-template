@@ -1,5 +1,7 @@
 # URI Template
 
+[![Build Status](https://secure.travis-ci.org/grncdr/uri-template.png?branch=master)](http://travis-ci.org/grncdr/uri-template)
+
 This is a node.js implementation of the URI template draft standard
 defined at http://tools.ietf.org/html/rfc6570
 
