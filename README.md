@@ -1,7 +1,7 @@
 # URI Template
 
 This is a node.js implementation of the URI template draft standard
-defined at http://tools.ietf.org/html/draft-gregorio-uritemplate-08
+defined at http://tools.ietf.org/html/rfc6570
 
 # Example
 
