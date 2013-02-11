@@ -1,7 +1,7 @@
 {
-	cls = require('./lib/classes')
-	Template = cls.Template
-	expression = cls.expression
+	var cls = require('./lib/classes')
+	var Template = cls.Template
+	var expression = cls.expression
 }
 uriTemplate 
   = pieces:(nonexpression / expression)* { return new Template(pieces) }
