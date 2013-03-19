@@ -11,3 +11,7 @@ test: all
 lib/%.js: src/%.coffee
 	mkdir -p lib
 	coffee -p -c $< > $@
+
+clean:
+	rm -r lib
+	rm parser.js
