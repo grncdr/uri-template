@@ -1,8 +1,7 @@
-PATH += $(shell npm bin)
 all: parser.js ./lib/classes.js ./lib/encoders.js
 
 parser.js: parser.pegjs
-	pegjs parser.pegjs
+	node_modules/.bin/pegjs parser.pegjs
 
 .PHONY: test
 test: all
@@ -10,4 +9,8 @@ test: all
 
 lib/%.js: src/%.coffee
 	mkdir -p lib
-	coffee -p -c $< > $@
+	node_modules/.bin/coffee -p -c $< > $@
+
+clean:
+	rm -r lib
+	rm parser.js
