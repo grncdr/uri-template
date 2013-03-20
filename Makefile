@@ -14,3 +14,7 @@ lib/%.js: src/%.coffee
 clean:
 	rm -r lib
 	rm parser.js
+
+publish: all
+	node test.js
+	npm publish
