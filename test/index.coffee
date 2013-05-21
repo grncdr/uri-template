@@ -25,7 +25,17 @@ runFile = (filename) ->
           count.failures += 1
           console.log "Parsing failed #{URI}\n- Expected #{expected}\n- #{e}"
       continue  unless pass and tpl.expressions.length
-      actual = tpl.expand variables
+
+      try
+        actual = tpl.expand variables
+      catch e
+        pass = false
+        if expected isnt false
+          count.failuresPEG += 1
+          count.failures += 1
+          console.log "Expansion failed #{URI}\n- Expected #{expected}\n- #{e}"
+      continue  unless pass and tpl.expressions.length
+
       if Array.isArray(expected) and actual in expected
         expected = actual
       try

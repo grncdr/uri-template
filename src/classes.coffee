@@ -47,8 +47,10 @@ class SimpleExpression
       value = value.toString()
       @encode value.substring 0, param.cut or value.length
     else if Array.isArray value
+      throw new Error("Prefixed Values do not support lists. Check #{param.name}")  if param.cut
       value.map(@encode).join ','
     else
+      throw new Error("Prefixed Values do not support maps. Check #{param.name}")  if param.cut
       (for k, v of value
         [k, v].map(@encode).join ',').join ','
 
