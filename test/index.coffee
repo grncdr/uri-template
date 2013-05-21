@@ -14,25 +14,25 @@ runFile = (filename) ->
   for section, {variables, testcases} of suite
     console.log "\n---\n#{section}"
     for [URI, expected] in testcases
+      pass = true
       count.all += 1
       try
         tpl = parser.parse URI
-        actual = tpl.expand variables
       catch e
-        continue  if expected is false
-        count.failuresPEG += 1
-        count.failures += 1
-        console.log "Parsing failed #{URI}\n- Expected #{expected}\n- #{e}"
-        continue
+        pass = false
+        if expected isnt false
+          count.failuresPEG += 1
+          count.failures += 1
+          console.log "Parsing failed #{URI}\n- Expected #{expected}\n- #{e}"
+      continue  unless pass and tpl.expressions.length
+      actual = tpl.expand variables
       if Array.isArray(expected) and actual in expected
         expected = actual
       try
         assert.strictEqual actual, expected
       catch e
-        #continue  if expected is false
         count.failures += 1
         console.log "Expansion failed #{URI}\n- Actual #{actual}\n- Expected #{expected}\n- #{e}"
-        continue
   if currentCountFailures is count.failures
     console.log '✔'
 
