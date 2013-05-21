@@ -9,27 +9,32 @@ count =
   failuresPEG: 0
 
 runFile = (filename) ->
+  currentCountFailures = count.failures
   suite = JSON.parse fs.readFileSync filename, 'utf-8'
   for section, {variables, testcases} of suite
     console.log "\n---\n#{section}"
-    for [tpl, expected] in testcases
+    for [URI, expected] in testcases
       count.all += 1
       try
-        actual = parser.parse(tpl).expand variables
+        tpl = parser.parse URI
+        actual = tpl.expand variables
       catch e
         continue  if expected is false
         count.failuresPEG += 1
         count.failures += 1
-        console.log "Parsing failed #{tpl}\n- Expected #{expected}\n- #{e}"
+        console.log "Parsing failed #{URI}\n- Expected #{expected}\n- #{e}"
         continue
       if Array.isArray(expected) and actual in expected
         expected = actual
       try
-        assert.strictEqual actual, expected, tpl
+        assert.strictEqual actual, expected
       catch e
         #continue  if expected is false
         count.failures += 1
-        console.log "Expansion failed #{tpl}\n- Actual #{actual}\n- Expected #{expected}\n- #{e}"
+        console.log "Expansion failed #{URI}\n- Actual #{actual}\n- Expected #{expected}\n- #{e}"
+        continue
+  if currentCountFailures is count.failures
+    console.log '✔'
 
 files = [
   'spec-examples.json'
