@@ -104,6 +104,7 @@ class SimpleExpression
   explodeObject: (object) =>
     pairs = []
     for k, v of object
+      k = @encode k
       if Array.isArray v
         pairs.push([k, @encode vv]) for vv in v
       else
