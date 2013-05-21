@@ -1,7 +1,7 @@
 {
-	var cls = require('./lib/classes')
-	var Template = cls.Template
-	var expression = cls.expression
+    var cls = require('./lib/classes')
+    var Template = cls.Template
+    var expression = cls.expression
 }
 uriTemplate
   = pieces:(nonexpression / expression)* { return new Template(pieces) }
@@ -24,14 +24,14 @@ param
       name: chars.join(''),
       explode: listMarker,
       cut: cut,
-			extended: e
+      extended: e
     } }
 
 substr
   = ':' digits:[0-9]+ { return parseInt(digits.join('')) }
 
 nonexpression
-	= chars:[^{]+ { return chars.join(''); }
+    = chars:[^{]+ { return chars.join(''); }
 
 extension
   = '(' chars:[^)]+ ')' { return chars.join('') }
