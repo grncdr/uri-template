@@ -40,4 +40,6 @@ files = [
 
 runFile "#{__dirname}/uritemplate-test/#{file}"  for file in files
 
-console.log "Failed #{count.failures} (#{count.failuresPEG} PEG) out of #{count.all} tests"  if count.failures
+if count.failures
+  console.log "Failed #{count.failures} (#{count.failuresPEG} PEG) out of #{count.all} tests"
+  process.exit 1
