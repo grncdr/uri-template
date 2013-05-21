@@ -33,24 +33,28 @@ class SimpleExpression
     @suffix = '' # Can be clobbered by `new Template`
 
   encode: (string) =>
-    ### Encode a string value for the URI ###
+    ###
+    Encode a string value for the URI
+    ###
     encoders[@allow](string)
 
   stringifySingle: (param, value) =>
-    ### Encode a single value as a string ###
+    ###
+    Encode a single value as a string
+    ###
     type = typeof value
     if type in ['string', 'boolean', 'number']
       value = value.toString()
-      @encode value.substring(0, param.cut or value.length)
+      @encode value.substring 0, param.cut or value.length
     else if Array.isArray value
-      value.map(@encode).join(',')
+      value.map(@encode).join ','
     else
       (for k, v of value
-        [k,v].map(@encode).join ',').join ','
+        [k, v].map(@encode).join ',').join ','
 
   expand: (vars) ->
-    defined = definedPairs(@params, vars)
-    expanded = defined.map((pair) => @_expandPair pair...).join(@sep)
+    defined = definedPairs @params, vars
+    expanded = defined.map((pair) => @_expandPair pair...).join @sep
 
     if expanded
       @first + expanded + @suffix
@@ -85,32 +89,33 @@ class SimpleExpression
     ###
     name = param.name
     if param.explode
-      if Array.isArray(value)
+      if Array.isArray value
         @explodeArray param, value
       else if typeof value is 'string'
         @stringifySingle param, value
       else
         @explodeObject value
     else
-      string = @stringifySingle(param, value)
-      string
+      @stringifySingle param, value
 
   explodeArray: (param, array) =>
-    array.map(@encode).join(@sep)
+    array.map(@encode).join @sep
 
   explodeObject: (object) =>
     pairs = []
     for k, v of object
-      if Array.isArray(v)
+      if Array.isArray v
         pairs.push([k, @encode vv]) for vv in v
       else
         pairs.push [k, @encode v]
-    pairs.map((pair) -> pair.join '=').join(@sep)
+    pairs.map((pair) -> pair.join '=').join @sep
 
   toString: ->
-    "{#{@first + @params.map((p) -> p.name + p.explode).join(',')}}" + @suffix
+    params = @params.map((p) -> p.name + p.explode).join ','
+    "{#{@first}#{params}}#{@suffix}"
 
-  toJSON: -> @toString()
+  toJSON: ->
+    @toString()
 
 class NamedExpression extends SimpleExpression
   ###
@@ -124,16 +129,16 @@ class NamedExpression extends SimpleExpression
     "#{param.name}#{value}"
 
   explodeArray: (param, array) =>
-    array.map((v) => "#{param.name}=#{@encode v}").join(@sep)
+    array.map((v) => "#{param.name}=#{@encode v}").join @sep
 
 class ReservedExpression extends SimpleExpression
-  encode: (string) -> encoders['U+R'](string)
-  toString: -> '{+' + (super).substring(1)
+  encode: (string) -> encoders['U+R'] string
+  toString: -> '{+' + (super).substring 1
 
 class FragmentExpression extends SimpleExpression
   first: '#'
   empty: '#'
-  encode: (string) -> encoders['U+R'](string)
+  encode: (string) -> encoders['U+R'] string
 
 class LabelExpression extends SimpleExpression
   first: '.'

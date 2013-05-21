@@ -1,6 +1,6 @@
 module.exports =
-	"U":   (string) -> encode /[^\w~.-]/g, string
-	"U+R": (string) -> encode /[^\w.~:\/\?#\[\]@!\$&'()*+,;=-]/g, string
+  "U":   (string) -> encode /[^\w~.-]/g, string
+  "U+R": (string) -> encode /[^\w.~:\/\?#\[\]@!\$&'()*+,;=-]/g, string
 
 encode = (regexp, string) ->
   string = String string
