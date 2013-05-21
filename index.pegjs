@@ -19,13 +19,22 @@ paramList
   = hd:param rst:(',' p:param { return p; })* { rst.unshift(hd); return rst; }
 
 param
-  = chars:[a-zA-Z0-9_.%]* cut:substr? listMarker:'*'? e:extension?
-    { return {
+  = chars:[a-zA-Z0-9_.%]* clm:(cut / listMarker)? e:extension?
+    { clm = clm || {};
+      return {
       name: chars.join(''),
-      explode: listMarker,
-      cut: cut,
+      explode: clm.listMarker,
+      cut: clm.cut,
       extended: e
     } }
+
+cut
+  = cut:substr
+  { return {cut: cut}; }
+
+listMarker
+  = listMarker:'*'
+  { return {listMarker: listMarker}; }
 
 substr
   = ':' digits:[0-9]+ { return parseInt(digits.join('')) }
