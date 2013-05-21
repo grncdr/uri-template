@@ -1,20 +1,20 @@
-all: parser.js ./lib/classes.js ./lib/encoders.js
+.PHONY: all test publish clean
 
-parser.js: parser.pegjs
-	node_modules/.bin/pegjs parser.pegjs
+all: index.js ./lib/classes.js ./lib/encoders.js
 
-.PHONY: test
-test: all
-	node ./test
+index.js: index.pegjs
+	@node_modules/.bin/pegjs index.pegjs
 
 lib/%.js: src/%.coffee
-	mkdir -p lib
-	node_modules/.bin/coffee -p -c $< > $@
+	@mkdir -p lib
+	@node_modules/.bin/coffee -p -c $< > $@
+
+test: all
+	@coffee ./test/index.coffee
+
+publish: test
+	@npm publish
 
 clean:
-	rm -r lib
-	rm parser.js
-
-publish: all
-	node test.js
-	npm publish
+	@rm -r lib
+	@rm index.js

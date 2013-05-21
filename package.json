@@ -7,22 +7,21 @@
     "type": "git",
     "url": "git://github.com/grncdr/uri-template.git"
   },
-  "main": "parser.js",
   "scripts": {
+    "prepublish": "make",
     "test": "make test"
   },
-  "files": [
-    "parser.js",
-    "test.js",
-    "lib"
-  ],
   "engines": {
-    "node": ">=0.4.12"
+    "node": "~0.10.4"
   },
-  "dependencies": {},
   "devDependencies": {
-    "coffee-script": "~1.2.0",
-    "pegjs": "~0.6.2"
+    "coffee-script": "~1.6.2",
+    "pegjs": "~0.7.0"
   },
-  "optionalDependencies": {}
+  "publishConfig": {
+    "files": [
+      "index.js",
+      "lib"
+    ]
+  }
 }
