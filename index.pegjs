@@ -19,7 +19,7 @@ paramList
   = hd:param rst:(',' p:param { return p; })* { rst.unshift(hd); return rst; }
 
 param
-  = chars:[a-zA-Z0-9_]* cut:substr? listMarker:'*'? e:extension?
+  = chars:[a-zA-Z0-9_.]* cut:substr? listMarker:'*'? e:extension?
     { return {
       name: chars.join(''),
       explode: listMarker,
