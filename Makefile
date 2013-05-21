@@ -10,7 +10,7 @@ lib/%.js: src/%.coffee
 	@node_modules/.bin/coffee -p -c $< > $@
 
 test: all
-	@node ./test
+	@coffee ./test/index.coffee
 
 publish: test
 	@npm publish
