@@ -11,7 +11,7 @@ Template = class Template
     pieces.forEach (p) =>
       switch (typeof p)
         when 'object' then @expressions[i++] = p
-        when 'string' then @expressions[i-1].suffix = p
+        when 'string' then @expressions[i - 1].suffix = p
 
   expand: (vars) ->
     @prefix + @expressions.map((expr) -> expr.expand vars).join ''
@@ -38,7 +38,9 @@ class SimpleExpression
 
   stringifySingle: (param, value) =>
     ### Encode a single value as a string ###
-    if typeof value == 'string'
+    type = typeof value
+    if type in ['string', 'boolean', 'number']
+      value = value.toString()
       @encode value.substring(0, param.cut or value.length)
     else if Array.isArray value
       value.map(@encode).join(',')
