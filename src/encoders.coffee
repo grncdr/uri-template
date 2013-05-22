@@ -5,20 +5,23 @@ module.exports =
 encode = (regexp, string) ->
   string = String string
   next = (start) ->
+    encoded = []
     m = regexp.exec string
     if m
       c = m[0].charCodeAt 0
 
       if c < 128
-        utftext = '%' + c.toString(16).toUpperCase()
+        encoded.push c
       else if 128 <= c < 2048
-        utftext = '%' + ((c >> 6) | 192).toString(16).toUpperCase()
-        utftext += '%' + ((c & 63) | 128).toString(16).toUpperCase()
+        encoded.push (c >> 6) | 192
+        encoded.push (c & 63) | 128
       else
-        utftext = '%' + ((c >> 12) | 224).toString(16).toUpperCase()
-        utftext += '%' + (((c >> 6) & 63) | 128).toString(16).toUpperCase()
-        utftext += '%' + ((c & 63) | 128).toString(16).toUpperCase()
-      string.slice(start, m.index) + utftext + next(m.index + 1)
+        encoded.push (c >> 12) | 224
+        encoded.push ((c >> 6) & 63) | 128
+        encoded.push (c & 63) | 128
+
+      encoded = encoded.map (c) -> '%' + c.toString(16).toUpperCase()
+      string.slice(start, m.index) + encoded.join('') + next(m.index + 1)
     else
       string.substring(start)
   next(0)
