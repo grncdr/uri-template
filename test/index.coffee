@@ -46,14 +46,17 @@ runFile = (filename) ->
   if currentCountFailures is count.failures
     console.log '✔'
 
-files = [
-  'spec-examples.json'
-  'spec-examples-by-section.json'
-  'extended-tests.json'
-  'negative-tests.json'
-]
+files = if process.argv.length > 2
+  process.argv.slice(2)
+else
+  "#{__dirname}/uritemplate-test/#{file}"  for file in [
+    'spec-examples.json'
+    'spec-examples-by-section.json'
+    'extended-tests.json'
+    'negative-tests.json'
+  ]
 
-runFile "#{__dirname}/uritemplate-test/#{file}"  for file in files
+files.map(runFile)
 
 if count.failures
   console.log "Failed #{count.failures} (#{count.failuresPEG} PEG) out of #{count.all} tests"
