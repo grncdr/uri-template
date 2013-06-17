@@ -14,10 +14,12 @@
   "engines": {
     "node": "~0.10.4"
   },
+  "dependencies": {
+    "pct-encode": "~1.0.0"
+  },
   "devDependencies": {
     "coffee-script": "~1.6.2",
-    "pegjs": "~0.7.0",
-    "pct-encode": "~1.0.0"
+    "pegjs": "~0.7.0"
   },
   "publishConfig": {
     "files": [
