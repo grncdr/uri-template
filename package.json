@@ -1,5 +1,5 @@
 {
-  "author": "Stephen Sugden <stephen@betsmartmedia.com> (betsmartmedia.com)",
+  "author": "Stephen Sugden <me@stephensugden.com> (http://stephensugden.com)",
   "name": "uri-template",
   "description": "Parse and expand URI templates as defined by http://tools.ietf.org/html/rfc6570",
   "version": "0.4.1",
