@@ -26,5 +26,6 @@
       "index.js",
       "lib"
     ]
-  }
+  },
+  "license": "MIT"
 }
