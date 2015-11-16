@@ -24,7 +24,8 @@
   "publishConfig": {
     "files": [
       "index.js",
-      "lib"
+      "lib",
+      "LICENSE"
     ]
   },
   "license": "MIT"
