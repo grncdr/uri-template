@@ -11,9 +11,6 @@
     "prepublish": "make",
     "test": "make test"
   },
-  "engines": {
-    "node": "~0.10.4"
-  },
   "dependencies": {
     "pct-encode": "~1.0.0"
   },
