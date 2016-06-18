@@ -49,12 +49,7 @@ runFile = (filename) ->
 files = if process.argv.length > 2
   process.argv.slice(2)
 else
-  "#{__dirname}/uritemplate-test/#{file}"  for file in [
-    'spec-examples.json'
-    'spec-examples-by-section.json'
-    'extended-tests.json'
-    'negative-tests.json'
-  ]
+  "#{__dirname}/uritemplate-test/#{file}" for file in fs.readdirSync("#{__dirname}/uritemplate-test").filter((x) -> /\.json$/.test(x))
 
 files.map(runFile)
 
