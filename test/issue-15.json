@@ -1,0 +1,11 @@
+{
+    "Issue #15":{
+        "level":4,
+        "variables":{
+            "uri": "http://foo/bar?message=hello%20world"
+        },
+        "testcases":[
+            [ "{+uri}" , "http://foo/bar?message=hello%20world" ]
+        ]
+    }
+}

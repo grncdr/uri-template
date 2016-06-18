@@ -53,6 +53,8 @@ else
 
 files.map(runFile)
 
+runFile(__dirname + '/issue-15.json')
+
 if count.failures
   console.log "Failed #{count.failures} (#{count.failuresPEG} PEG) out of #{count.all} tests"
   process.exit 1
