@@ -12,8 +12,22 @@ declare module "uri-template" {
     | "nonexpression"
     | "extension";
 
+  interface TemplateExpressionParam {
+    explode: string
+    name: string
+  }
+
+  interface TemplateExpression {
+    params: TemplateExpressionParam[]
+  }
+
+  type Vars = Record<string, string | number | Record<string, string | number>>
+
   export class Template {
-    expand: (vars: object) => string
+    expand: (vars: Vars) => string
+    prefix: string
+    expressions: TemplateExpression[]
+    toJSON(): string
   }
 
   export function parse(input: string, startRule?: StartRule): Template
