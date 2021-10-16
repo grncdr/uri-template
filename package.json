@@ -2,7 +2,7 @@
   "author": "Stephen Sugden <me@stephensugden.com> (http://stephensugden.com)",
   "name": "uri-template",
   "description": "Parse and expand URI templates as defined by http://tools.ietf.org/html/rfc6570",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "repository": {
     "type": "git",
     "url": "git://github.com/grncdr/uri-template.git"
