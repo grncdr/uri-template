@@ -1,4 +1,4 @@
-lib
+lib/grammar.js
+dist/*
 node_modules
-index.js
 npm-debug.log

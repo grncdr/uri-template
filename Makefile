@@ -1,20 +1,18 @@
 .PHONY: all test publish clean
 
-all: index.js ./lib/classes.js ./lib/encoders.js
+all: lib/grammar.js dist/index.js dist/classes.js
 
-index.js: index.pegjs
-	@node_modules/.bin/pegjs index.pegjs
+dist/%.js: lib/%.ts
+	@npx tsc
 
-lib/%.js: src/%.coffee
-	@mkdir -p lib
-	@node_modules/.bin/coffee -p -c $< > $@
+lib/grammar.js: lib/grammar.pegjs
+	@npx pegjs lib/grammar.pegjs ./lib/grammar.js
 
 test: all
-	@coffee ./test/index.coffee
+	@node ./test/index.js
 
 publish: test
 	@npm publish
 
 clean:
-	@rm -r lib
-	@rm index.js
+	@rm -fr dist

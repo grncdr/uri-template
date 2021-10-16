@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "module": "commonjs",
+    "declaration": true,
+    "esModuleInterop": true,
+    "allowJs": true,
+    "rootDir": "./lib",
+    "outDir": "./dist"
+  },
+  "include": ["./lib/*.ts", "types.d.ts"],
+  "exclude": ["./dist/**/*"]
+}
