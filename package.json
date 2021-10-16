@@ -21,6 +21,7 @@
   "publishConfig": {
     "files": [
       "index.js",
+      "index.d.ts",
       "lib",
       "LICENSE"
     ]
