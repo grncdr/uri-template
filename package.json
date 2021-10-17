@@ -8,7 +8,7 @@
     "url": "git://github.com/grncdr/uri-template.git"
   },
   "scripts": {
-    "prepublish": "make",
+    "prepare": "make clean all",
     "test": "make test"
   },
   "dependencies": {
