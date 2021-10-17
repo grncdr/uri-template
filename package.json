@@ -7,6 +7,8 @@
     "type": "git",
     "url": "git://github.com/grncdr/uri-template.git"
   },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "prepare": "make clean all",
     "test": "make test"
@@ -15,16 +17,11 @@
     "pct-encode": "~1.0.0"
   },
   "devDependencies": {
-    "coffee-script": "~1.6.3",
-    "pegjs": "~0.7.0"
+    "@types/node": "^16.11.0",
+    "pegjs": "~0.7.0",
+    "prettier": "^2.4.1",
+    "typescript": "^4.4.4"
   },
-  "publishConfig": {
-    "files": [
-      "index.js",
-      "index.d.ts",
-      "lib",
-      "LICENSE"
-    ]
-  },
+  "files": ["dist", "lib", "AUTHORS", "LICENSE", "README.md"],
   "license": "MIT"
 }
