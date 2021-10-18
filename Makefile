@@ -1,9 +1,12 @@
-.PHONY: all test publish clean
+.PHONY: check publish clean
 
 all: lib/grammar.js dist/index.js dist/classes.js
 
 dist/%.js: lib/%.ts
 	@npx tsc
+
+check:
+	@npx tsc --noEmit
 
 lib/grammar.js: lib/grammar.pegjs
 	@npx pegjs lib/grammar.pegjs ./lib/grammar.js
