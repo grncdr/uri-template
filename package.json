@@ -18,10 +18,16 @@
   },
   "devDependencies": {
     "@types/node": "^16.11.0",
-    "pegjs": "~0.7.0",
+    "peggy": "^1.2.0",
     "prettier": "^2.4.1",
     "typescript": "^4.4.4"
   },
-  "files": ["dist", "lib", "AUTHORS", "LICENSE", "README.md"],
+  "files": [
+    "dist",
+    "lib",
+    "AUTHORS",
+    "LICENSE",
+    "README.md"
+  ],
   "license": "MIT"
 }

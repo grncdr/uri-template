@@ -9,7 +9,7 @@ check:
 	@npx tsc --noEmit
 
 lib/grammar.js: lib/grammar.pegjs
-	@npx pegjs lib/grammar.pegjs ./lib/grammar.js
+	@npx peggy lib/grammar.pegjs
 
 test: all
 	@node ./test/index.js
