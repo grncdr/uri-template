@@ -179,7 +179,9 @@ class SimpleExpression {
   }
 
   toString() {
-    const params = this.params.map((p) => `${p.name}${p.explode}`).join(",");
+    const params = this.params
+      .map((p) => `${p.name}${p.explode ? "*" : ""}`)
+      .join(",");
     return "{" + this.first + params + "}" + this.suffix;
   }
 
