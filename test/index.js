@@ -28,6 +28,14 @@ const runFile = (filename) => {
         return;
       }
 
+      try {
+        assert.equal(tpl.toString(), URI);
+      } catch (e) {
+        counters.failures += 1;
+        console.log(`Round-trip failed ${URI}\n- ${e}`);
+        return;
+      }
+
       if (tpl.expressions.length === 0) {
         return;
       }

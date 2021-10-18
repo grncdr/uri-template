@@ -180,7 +180,7 @@ class SimpleExpression {
 
   toString() {
     const params = this.params
-      .map((p) => `${p.name}${p.explode ? "*" : ""}`)
+      .map((p) => `${p.name}${p.explode ? "*" : ""}${p.cut ? `:${p.cut}` : ""}`)
       .join(",");
     return "{" + this.first + params + "}" + this.suffix;
   }
