@@ -29,5 +29,4 @@ queryTpl.expand({
 // /search?q=Bigger%20office&prefer=Sterling%27s%20office&accept=Crane%27s%20office
 ```
 
-For more thorough coverage of the syntax, see `test.js` or the
-[RFC](http://tools.ietf.org/html/rfc6570).
+For more thorough coverage of the syntax, see the [RFC](https://datatracker.ietf.org/doc/html/rfc6570).
