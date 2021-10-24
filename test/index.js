@@ -39,7 +39,7 @@ const runFile = (filename) => {
         return;
       }
 
-      if (tpl.expressions.length === 0) {
+      if (tpl.ast.parts.every((node) => node.type === "literal")) {
         return;
       }
 

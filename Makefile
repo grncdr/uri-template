@@ -1,6 +1,6 @@
 .PHONY: check publish clean
 
-all: lib/grammar.js dist/index.js dist/classes.js
+all: lib/grammar.js dist/index.js
 
 dist/%.js: lib/%.ts
 	@npx tsc
