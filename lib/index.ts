@@ -1,27 +1,33 @@
 import * as grammar from "./grammar.js";
+import * as AST from "./ast";
+import { expandTemplate } from "./expander";
 
-export type StartRule =
-  | "uriTemplate"
-  | "expression"
-  | "op"
-  | "pathExpression"
-  | "paramList"
-  | "param"
-  | "cut"
-  | "listMarker"
-  | "substr"
-  | "nonexpression"
-  | "extension";
+export type RuleToNode = {
+  template: AST.Template;
+  literal: AST.Literal;
+  expression: AST.Expression;
+  operator: AST.Operator;
+  variables: AST.Variable[];
+  variable: AST.Variable;
+  listMarker: AST.ExplodeModifier;
+  substr: AST.SubstrModifier;
+  extension: string;
+};
 
-import type { Template } from "./classes";
-
-export function parse(input: string, startRule?: StartRule): Template {
-  return grammar.parse(input, startRule);
+export function parse(input: string) {
+  const ast = parseRule(input, "template");
+  return {
+    ast,
+    expand: (values: Record<string, unknown>) => expandTemplate(ast, values),
+    toString: () => AST.toString(ast),
+  };
 }
 
-export type {
-  Template,
-  SimpleExpression as TemplateExpression,
-  Param as TemplateExpressionParam,
-  Variables as Var,
-} from "./classes";
+export function parseRule<StartRule extends keyof RuleToNode>(
+  input: string,
+  startRule = "template" as StartRule
+): RuleToNode[StartRule] {
+  return grammar.parse(input, { startRule }) as RuleToNode[StartRule];
+}
+
+export * from "./expander";
