@@ -13,6 +13,9 @@ const runFile = (filename) => {
   const suite = JSON.parse(fs.readFileSync(filename, "utf-8"));
 
   Object.entries(suite).forEach(([section, { variables, testcases }]) => {
+    if (testNamePattern && !testNamePattern.test(section)) {
+      return;
+    }
     console.log(`\n---\n${section}`);
     testcases.forEach(([URI, expected]) => {
       counters.all += 1;
@@ -72,21 +75,19 @@ const runFile = (filename) => {
   }
 };
 
-files =
-  process.argv.length > 2
-    ? process.argv.slice(2)
-    : fs
-        .readdirSync(`${__dirname}/uritemplate-test`)
-        .filter((fn) => fn.endsWith(".json"))
-        .map((fn) => `${__dirname}/uritemplate-test/${fn}`);
+let testNamePattern =
+  process.argv.length > 2 && new RegExp(process.argv[2], "i");
 
-files.map(runFile);
+fs.readdirSync(`${__dirname}/uritemplate-test`)
+  .filter((fn) => fn.endsWith(".json"))
+  .map((fn) => `${__dirname}/uritemplate-test/${fn}`)
+  .forEach(runFile);
 
 runFile(__dirname + "/issue-15.json");
 
 if (counters.failures) {
   console.log(
-    `Failed ${counters.failures} (${counters.failuresPEG} PEG) out of ${counters.all} tests`
+    `Failed ${counters.failures} out of ${counters.all} tests (${counters.failuresPEG} parse errors) `
   );
   process.exit(1);
 }
